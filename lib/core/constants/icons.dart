@@ -1,5 +1,8 @@
 class ConstIcons {
   static const String _path = "assets/icons";
+//app logo
+  static const String splashLogoName = 'assets/icons/ic_logo.png';
+  static const String homeLogoName = 'assets/icons/ic_logo_home.png';
 
   // Navigation & Status
   static const String appLogo = "$_path/logo.png";

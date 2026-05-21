@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
 import 'package:zad_almuslim/core/constants/textes.dart';
+import 'package:zad_almuslim/core/services/app_actions_service.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsets.only(top: 40, bottom: 20, left: 93),
+      margin: const EdgeInsets.only(top: 40, bottom: 20, left: 93),
       decoration: BoxDecoration(
         gradient: ConstColors.mainGradientColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(40),
           bottomLeft: Radius.circular(40),
         ),
@@ -34,106 +36,148 @@ class AppDrawer extends StatelessWidget {
               child: Image.asset(ConstIcons.splashScreenBackgroundTopShape),
             ),
           ),
+
           Column(
-            mainAxisSize: MainAxisSize.max,
             children: [
-              //logo
               SizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
-                    SizedBox(height: 60),
-                    Image.asset(ConstIcons.appLogo, width: 80),
-                    Text(
-                      ConstTexts.appName,
-                      style: TextTheme.of(context).titleMedium!.copyWith(
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black38,
-                            offset: Offset(0, 8),
-                            blurRadius: 8,
-                          ),
-                        ],
-                      ),
-                    ),
+                    const SizedBox(height: 50),
+                    Image.asset(ConstIcons.splashLogoName, width: 100),
+                    // const SizedBox(height: 10),
+                    // Text(
+                    //   ConstTexts.appName,
+                    //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    //     color: Colors.white,
+                    //     fontSize: 22,
+                    //     shadows: const [
+                    //       Shadow(
+                    //         color: Colors.black38,
+                    //         offset: Offset(0, 4),
+                    //         blurRadius: 6,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  spacing: 20,
+
+              const SizedBox(height: 60),
+
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white30,
-                        side: BorderSide(color: Colors.white, width: 2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        padding: EdgeInsets.all(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            ConstIcons.changeAppearnceMode,
-                            width: 26,
-                          ),
-                          Spacer(),
-                          Text(
-                            "تبديل الوضع",
-                            style: TextTheme.of(
-                              context,
-                            ).titleMedium!.copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigator.pushReplacementNamed(context, "/settings");
+                    _buildDrawerItem(
+                      context,
+                      icon: ConstIcons.settings,
+                      title: ConstTexts.settings,
+                      onTap: () {
+                        Navigator.pushNamed(context, "/settings");
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white30,
-                        side: BorderSide(color: Colors.white, width: 2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        padding: EdgeInsets.all(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(ConstIcons.settings, width: 26),
-                          Spacer(),
-                          Text(
-                            ConstTexts.settings,
-                            style: TextTheme.of(
-                              context,
-                            ).titleMedium!.copyWith(fontSize: 18),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
                     ),
-                    SizedBox(height: 40),
-                    Text(
-                      "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
-                      style: TextTheme.of(
-                        context,
-                      ).bodyMedium!.copyWith(color: Colors.white),
-                      textAlign: TextAlign.center,
+
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 12,
+                      ),
+                      child: Divider(color: Colors.white24, thickness: 1),
+                    ),
+
+                    _buildDrawerItem(
+                      context,
+                      icon: ConstIcons.rateUs,
+                      title: "تقييم التطبيق",
+                      onTap: () {
+                        AppActionsService.showRatingDialog(context);
+                      },
+                    ),
+                    _buildDrawerItem(
+                      context,
+                      icon: ConstIcons.sendNotes, 
+                      title: "أرسل مقترحاً",
+                      onTap: () {
+                        AppActionsService.showNoteDialog(context);
+                      },
+                    ),
+                    _buildDrawerItem(
+                      context,
+                      icon: ConstIcons.share,
+                      title: "مشاركة التطبيق",
+                      onTap: () {
+                        AppActionsService.shareApp();
+                      },
                     ),
                   ],
                 ),
               ),
-              Spacer(),
+
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: ConstColors.secondMainColor,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ \nأَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black,
+                          fontSize: 12,
+                          height: 1.6,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      "الإصدار 1.0.0",
+                      style: TextStyle(
+                        color: Colors.white38,
+                        fontSize: 12,
+                        fontFamily: 'exo',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  // دالة مساعدة (Helper Widget) لبناء عناصر القائمة بشكل موحد، نظيف، وبلمسة زجاجية خفيفة
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required String icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: ListTile(
+        onTap: onTap,
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        hoverColor: Colors.white10,
+        leading: Image.asset(icon, width: 24, color: Colors.white),
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
     );
   }

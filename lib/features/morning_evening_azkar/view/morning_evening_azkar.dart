@@ -200,18 +200,28 @@ class _MorningEveningAzkarState extends State<MorningEveningAzkar> {
                             child: SizedBox(
                               height: double.infinity,
                               child: CounterButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  /// if counter less than repeat = counter++
+                                  /// if counter equal repeat = next zikr and counter = 0
+                                  /// if last zikr = stop
                                   if (counter <
                                       azkar[currentZikrNumber]['repeat']) {
                                     setState(() {
                                       counter++;
                                     });
-                                  } else if (currentZikrNumber <
-                                      azkar.length - 1) {
-                                    setState(() {
-                                      counter = 0;
-                                      currentZikrNumber++;
-                                    });
+                                    if (counter ==
+                                            azkar[currentZikrNumber]['repeat'] &&
+                                        currentZikrNumber < azkar.length - 1) {
+                                      if (mounted) {
+                                        await Future.delayed(
+                                          Duration(milliseconds: 200),
+                                        );
+                                        setState(() {
+                                          counter = 0;
+                                          currentZikrNumber++;
+                                        });
+                                      }
+                                    }
                                   }
                                 },
                                 label: counter.toString(),

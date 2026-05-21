@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
-import 'package:zad_almuslim/core/constants/textes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -44,20 +43,20 @@ class _SplashScreenState extends State<SplashScreen> {
                 // mainAxisSize: MainAxisSize.max,
                 children: [
                   Image.asset(ConstIcons.appLogo, width: 60),
-                  // SvgPicture.asset("assets/logos/logo.svg"),
-                  Text(
-                    ConstTexts.appName,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black38,
-                          offset: Offset(0, 8),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                  ),
+                  Image.asset(ConstIcons.splashLogoName, width: 120),
+                  // Text(
+                  //   ConstTexts.appName,
+                  //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //     color: Colors.white,
+                  //     shadows: [
+                  //       Shadow(
+                  //         color: Colors.black38,
+                  //         offset: Offset(0, 8),
+                  //         blurRadius: 8,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

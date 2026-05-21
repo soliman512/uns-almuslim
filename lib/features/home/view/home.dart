@@ -67,18 +67,18 @@ class _HomeState extends State<Home> {
           spacing: 8,
           children: [
             Image.asset(ConstIcons.appbarLogo, width: 28),
-            Text(
-              ConstTexts.appName,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge!.copyWith(fontSize: 24),
-            ),
+            Image.asset(ConstIcons.homeLogoName, width: 80),
+            // Text(
+            //   ConstTexts.appName,
+            //   style: Theme.of(
+            //     context,
+            //   ).textTheme.titleLarge!.copyWith(fontSize: 24),
+            // ),
           ],
         ),
         actions: [
           Container(
-            width: 100,
-            padding: EdgeInsets.all(4),
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
             decoration: BoxDecoration(
               color: ConstColors.mainColor,
               borderRadius: BorderRadius.circular(80),
@@ -87,18 +87,13 @@ class _HomeState extends State<Home> {
               valueListenable: _timeNotifier,
 
               builder: (context, timeValue, child) => Row(
+                spacing: 8,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Spacer(),
                   Text(
-                    timeValue,
-                    style: TextStyle(
-                      fontFamily: 'exo',
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
+                    DateManager.getCurrentNafha(),
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
-                  Spacer(),
                   Image.asset(
                     DateManager.isMorning() ? ConstIcons.sun : ConstIcons.moon,
                     width: 26,

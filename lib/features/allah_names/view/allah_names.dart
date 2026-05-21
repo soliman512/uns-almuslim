@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
+import 'package:zad_almuslim/core/constants/textes.dart';
 import 'package:zad_almuslim/core/widgets/appbar.dart';
 import 'package:zad_almuslim/core/widgets/drawer.dart';
 import 'package:zad_almuslim/core/widgets/header.dart';
@@ -49,7 +50,7 @@ class _AllahNamesState extends State<AllahNames> {
       key: scaffoldState,
       extendBodyBehindAppBar: true,
       appBar: MyAppbar(
-        pageName: "واحة الأسماء الحسنى",
+        pageName:ConstTexts.allahNames,
         onPressDrawer: () => scaffoldState.currentState!.openDrawer(),
       ),
       drawer: AppDrawer(),

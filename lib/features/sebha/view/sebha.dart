@@ -39,8 +39,9 @@ class _SebhaState extends State<Sebha> {
 
   Future<void> loadUserAzkar() async {
     userAzkar = await _storage.loadUserAzkar();
-
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void loadData() async {
@@ -48,7 +49,6 @@ class _SebhaState extends State<Sebha> {
     if (data.isNotEmpty) {
       setState(() {
         sebhaAzkar.addAll(data);
-        isLoading = false;
       });
     }
   }

@@ -3,8 +3,8 @@ class ConstTexts {
   static String morningAzkar = 'أذكار الصباح';
   static String eveningAzkar = 'أذكار المساء';
   static String mesbha = 'المِسْبَحَة';
-  static String allahNames = 'واحة الأسماء الحسنى';
-  static String meraj = 'معراج الروح';
+  static String allahNames = 'واحة الاسماء';
+  static String meraj = 'معراج';
   static String settings = 'الإعدادات';
 
   static List<String> headerAyats = [

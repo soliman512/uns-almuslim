@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
+import 'package:zad_almuslim/core/constants/textes.dart';
 import 'package:zad_almuslim/core/widgets/appbar.dart';
 import 'package:zad_almuslim/core/widgets/drawer.dart';
 import 'package:zad_almuslim/core/widgets/progress.dart';
@@ -45,7 +46,7 @@ class _MerajState extends State<Meraj> {
       extendBodyBehindAppBar: true,
       key: scaffoldState,
       appBar: MyAppbar(
-        pageName: "معراج الروح",
+        pageName: ConstTexts.meraj,
         onPressDrawer: () => scaffoldState.currentState!.openDrawer(),
       ),
       drawer: AppDrawer(),

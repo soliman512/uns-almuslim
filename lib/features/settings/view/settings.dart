@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
 import 'package:zad_almuslim/core/constants/textes.dart';
+import 'package:zad_almuslim/core/services/app_actions_service.dart';
 import 'package:zad_almuslim/core/widgets/appbar.dart';
 import 'package:zad_almuslim/core/widgets/special_body.dart';
 
@@ -31,188 +32,188 @@ class _SettingsState extends State<Settings> {
   String selectedSize = "متوسط";
   final TextEditingController noteController = TextEditingController();
 
-  //send email function:
-  Future<void> sendEmail() async {
-    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Origin': 'http://localhost',
-        },
-        body: jsonEncode({
-          'service_id': 'service_p6uvup9',
-          'template_id': 'template_qtfr8c4',
-          'user_id': 'W0ctHE3uYiqHe98Rl',
-          'accessToken': 'fX2do_IcXEuk9kIMc512o',
-          'template_params': {'message': noteController.text.trim()},
-        }),
-      );
+  // //send email function:
+  // Future<void> sendEmail() async {
+  //   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Origin': 'http://localhost',
+  //       },
+  //       body: jsonEncode({
+  //         'service_id': 'service_p6uvup9',
+  //         'template_id': 'template_qtfr8c4',
+  //         'user_id': 'W0ctHE3uYiqHe98Rl',
+  //         'accessToken': 'fX2do_IcXEuk9kIMc512o',
+  //         'template_params': {'message': noteController.text.trim()},
+  //       }),
+  //     );
 
-      if (response.statusCode == 200) {
-        if (!mounted) return;
+  //     if (response.statusCode == 200) {
+  //       if (!mounted) return;
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "تم إرسال الملاحظة بنجاح",
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Color.fromARGB(255, 7, 240, 151),
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(4),
-          ),
-        );
-        noteController.clear();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("هناك مشكلة في الاتصال"),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-        print("EmailJS Server Error: ${response.body}");
-        throw Exception('فشل السيرفر في المعالجة');
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          content: Text("there is problem : $e"),
-        ),
-      );
-    }
-  }
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text(
+  //             "تم إرسال الملاحظة بنجاح",
+  //             style: TextStyle(color: Colors.black),
+  //           ),
+  //           backgroundColor: Color.fromARGB(255, 7, 240, 151),
+  //           behavior: SnackBarBehavior.floating,
+  //           margin: EdgeInsets.all(4),
+  //         ),
+  //       );
+  //       noteController.clear();
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text("هناك مشكلة في الاتصال"),
+  //           backgroundColor: Colors.redAccent,
+  //         ),
+  //       );
+  //       print("EmailJS Server Error: ${response.body}");
+  //       throw Exception('فشل السيرفر في المعالجة');
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         backgroundColor: Colors.redAccent,
+  //         content: Text("there is problem : $e"),
+  //       ),
+  //     );
+  //   }
+  // }
 
-  //send rate function:
-  Future<void> sendRating(int rate) async {
-    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'service_id': 'service_p6uvup9',
-          'template_id': 'template_z1b9iw6',
-          'user_id': 'W0ctHE3uYiqHe98Rl',
-          'accessToken': 'fX2do_IcXEuk9kIMc512o',
-          'template_params': {'stars': rate},
-        }),
-      );
-      if (response.statusCode == 200) {
-        if (!mounted) return;
+  // //send rate function:
+  // Future<void> sendRating(int rate) async {
+  //   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: jsonEncode({
+  //         'service_id': 'service_p6uvup9',
+  //         'template_id': 'template_z1b9iw6',
+  //         'user_id': 'W0ctHE3uYiqHe98Rl',
+  //         'accessToken': 'fX2do_IcXEuk9kIMc512o',
+  //         'template_params': {'stars': rate},
+  //       }),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       if (!mounted) return;
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "شكرا لتقييمك لنا",
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Color.fromARGB(255, 240, 139, 7),
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(4),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("هناك مشكلة في الاتصال"),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-        print("EmailJS Server Error: ${response.body}");
-        throw Exception('فشل السيرفر في المعالجة');
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          content: Text("there is problem : $e"),
-        ),
-      );
-    }
-  }
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text(
+  //             "شكرا لتقييمك لنا",
+  //             style: TextStyle(color: Colors.black),
+  //           ),
+  //           backgroundColor: Color.fromARGB(255, 240, 139, 7),
+  //           behavior: SnackBarBehavior.floating,
+  //           margin: EdgeInsets.all(4),
+  //         ),
+  //       );
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text("هناك مشكلة في الاتصال"),
+  //           backgroundColor: Colors.redAccent,
+  //         ),
+  //       );
+  //       print("EmailJS Server Error: ${response.body}");
+  //       throw Exception('فشل السيرفر في المعالجة');
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         backgroundColor: Colors.redAccent,
+  //         content: Text("there is problem : $e"),
+  //       ),
+  //     );
+  //   }
+  // }
 
-  // rateUs function:
-  void showRatingDialog(BuildContext context) {
-    double selectedRating = 3.0;
+  // // rateUs function:
+  // void showRatingDialog(BuildContext context) {
+  //   double selectedRating = 3.0;
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(24),
+  //         ),
 
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "قم بتقييمنا لمساعدتنا في تطوير ${ConstTexts.appName}",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey, fontSize: 14),
-              ),
-              const SizedBox(height: 20),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             Text(
+  //               "قم بتقييمنا لمساعدتنا في تطوير ${ConstTexts.appName}",
+  //               textAlign: TextAlign.center,
+  //               style: TextStyle(color: Colors.grey, fontSize: 14),
+  //             ),
+  //             const SizedBox(height: 20),
 
-              RatingBar.builder(
-                initialRating: selectedRating,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: false,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star_rounded,
-                  color: Color.fromARGB(255, 240, 139, 7),
-                ),
-                onRatingUpdate: (rating) {
-                  selectedRating = rating;
-                },
-              ),
-            ],
-          ),
-          actionsAlignment: MainAxisAlignment.spaceEvenly,
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ConstColors.mainColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                int finalStarsCount = selectedRating.toInt();
-                Navigator.pop(context);
-                sendRating(finalStarsCount);
-              },
-              child: const Text(
-                "إرسال التقييم",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("إلغاء", style: TextStyle(color: Colors.grey)),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  //             RatingBar.builder(
+  //               initialRating: selectedRating,
+  //               minRating: 1,
+  //               direction: Axis.horizontal,
+  //               allowHalfRating: false,
+  //               itemCount: 5,
+  //               itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+  //               itemBuilder: (context, _) => const Icon(
+  //                 Icons.star_rounded,
+  //                 color: Color.fromARGB(255, 240, 139, 7),
+  //               ),
+  //               onRatingUpdate: (rating) {
+  //                 selectedRating = rating;
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //         actionsAlignment: MainAxisAlignment.spaceEvenly,
+  //         actions: [
+  //           ElevatedButton(
+  //             style: ElevatedButton.styleFrom(
+  //               backgroundColor: ConstColors.mainColor,
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(12),
+  //               ),
+  //             ),
+  //             onPressed: () {
+  //               int finalStarsCount = selectedRating.toInt();
+  //               Navigator.pop(context);
+  //               sendRating(finalStarsCount);
+  //             },
+  //             child: const Text(
+  //               "إرسال التقييم",
+  //               style: TextStyle(color: Colors.white),
+  //             ),
+  //           ),
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(context),
+  //             child: const Text("إلغاء", style: TextStyle(color: Colors.grey)),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  //share app function:
-  void shareApp() async {
-    // نص الرسالة اللي هيتبعت للمستخدمين على الواتساب أو غيره
-    String message =
-        "تطبيق ${ConstTexts.appName}  | صدقة جارية، أذكار، وأدعية وميزات بدون إعلانات.\n"
-        "حمل التطبيق الآن وساهم في نشره:\n"
-        "https://play.google.com/store/apps/details?id=com.yourcompany.zad_almuslim"; // استبدل ده بلينك تطبيقك الحقيقي
+  // //share app function:
+  // void shareApp() async {
+  //   // نص الرسالة اللي هيتبعت للمستخدمين على الواتساب أو غيره
+  //   String message =
+  //       "تطبيق ${ConstTexts.appName}  | صدقة جارية، أذكار، وأدعية وميزات بدون إعلانات.\n"
+  //       "حمل التطبيق الآن وساهم في نشره:\n"
+  //       "https://play.google.com/store/apps/details?id=com.yourcompany.zad_almuslim"; // استبدل ده بلينك تطبيقك الحقيقي
 
-    // سطر واحد سحري بيفتح قائمة المشاركة بتاعة الموبايل
-    await SharePlus.instance.share(ShareParams(text: message));
-  }
+  //   // سطر واحد سحري بيفتح قائمة المشاركة بتاعة الموبايل
+  //   await SharePlus.instance.share(ShareParams(text: message));
+  // }
 
   @override
   void dispose() {
@@ -231,7 +232,7 @@ class _SettingsState extends State<Settings> {
         height: double.infinity,
         child: Stack(
           children: [
-            // لا تنسونا من صالح دعائكم
+            // لا تنسونا من صالح دعائكم box
             Positioned(
               bottom: 0,
               child: Container(
@@ -322,108 +323,8 @@ class _SettingsState extends State<Settings> {
                       title: "إرسال ملاحظة",
                       trailing: FilledButton(
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SizedBox(
-                                child: AlertDialog(
-                                  backgroundColor: isDark
-                                      ? Colors.black
-                                      : Colors.white,
-
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    spacing: 20,
-                                    children: [
-                                      TextField(
-                                        controller: noteController,
-                                        textInputAction:
-                                            TextInputAction.newline,
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: null,
-                                        minLines: 3,
-                                        autocorrect: true,
-                                        autofocus: true,
-                                        cursorColor: ConstColors.mainColor,
-
-                                        decoration: InputDecoration(
-                                          hintText: "ما الملاحظة ؟ ...",
-                                          hintStyle: TextStyle(
-                                            color: Colors.black26,
-                                          ),
-                                          filled: true,
-                                          fillColor: ConstColors.input,
-                                          contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 16,
-                                          ),
-
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                            borderSide: BorderSide.none,
-                                          ),
-
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                            borderSide: BorderSide.none,
-                                          ),
-
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          if (!mounted) return;
-                                          if (noteController.text
-                                              .trim()
-                                              .isEmpty) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              const SnackBar(
-                                                content: Text("الحقل فارغ !"),
-                                                backgroundColor:
-                                                    Colors.deepOrange,
-                                              ),
-                                            );
-                                          } else {
-                                            sendEmail();
-                                            Navigator.pop(context);
-                                          }
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(14),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 4,
-                                            ),
-                                            shape: BoxShape.circle,
-                                            gradient:
-                                                ConstColors.mainGradientColor,
-                                          ),
-                                          child: Image.asset(
-                                            ConstIcons.confirmSendNotes,
-                                            width: 22,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                          AppActionsService.showNoteDialog(context);
+                      },
                         style: FilledButton.styleFrom(
                           backgroundColor: ConstColors.mainColor,
                           foregroundColor: Colors.white,
@@ -449,7 +350,7 @@ class _SettingsState extends State<Settings> {
                       title: "قم بتقييمنا",
                       trailing: FilledButton(
                         onPressed: () {
-                          showRatingDialog(context);
+                          AppActionsService.showRatingDialog(context);
                         },
                         style: FilledButton.styleFrom(
                           backgroundColor: ConstColors.mainColor,
@@ -466,7 +367,7 @@ class _SettingsState extends State<Settings> {
                         child: Text(
                           "تقييم",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12,),
+                          style: TextStyle(fontSize: 12),
                         ),
                       ),
                     ),
@@ -497,7 +398,7 @@ class _SettingsState extends State<Settings> {
                     ),
                     //share
                     _buildSettingTile(
-                      onTap: shareApp,
+                      onTap: AppActionsService.shareApp,
                       isDark: isDark,
                       title: "مشاركة التطبيق",
                       iconPath: ConstIcons.share,

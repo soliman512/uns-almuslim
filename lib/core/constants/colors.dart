@@ -6,7 +6,7 @@ class ConstColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
-  static Color mainColor = Color(0xff2C665E);
+  static Color mainColor = Color.fromRGBO(44, 102, 94, 1);
   static Color input = Color(0xffD8D8D8);
   static Color secondMainColor = Color(0xffe7d091);
 }
