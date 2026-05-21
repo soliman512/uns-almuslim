@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
 import 'package:zad_almuslim/core/constants/textes.dart';
@@ -11,6 +13,47 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 class AppActionsService {
   // static List<String> fontSizes = ["صغير", "متوسط", "كبير"];
   // static String selectedSize = "متوسط";
+  static const String githubUsername = "soliman512";
+  static const String repoName = "uns-almuslim";
+
+  static Future<void> checkAppUpdate(BuildContext context) async {
+    final url = Uri.parse(
+      "https://api.github.com/repos/$githubUsername/$repoName/releases/latest",
+    );
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        String latestVersion = data['tag_name'];
+        String downloadUrl = data['html_url'];
+
+        latestVersion = latestVersion.replaceAll('v', '').trim();
+
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String currentVersion = packageInfo.version;
+        print(currentVersion);
+        if (latestVersion != currentVersion) {
+          final Uri uri = Uri.parse(downloadUrl);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        } else {
+          if (context.mounted) {
+            showSuccessSnackBar(context, "تطبيقك محدث بالفعل إلى آخر إصدار!");
+          }
+        }
+      } else {
+        throw Exception("Failed to load release info");
+      }
+    } catch (e) {
+      debugPrint("Update Check Error: $e");
+      if (context.mounted) {
+        showErrorSnackBar(context, "تعذر التحقق من وجود تحديثات حالياً");
+      }
+    }
+  }
 
   static void showSuccessSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -110,7 +153,7 @@ class AppActionsService {
     showDialog(context: context, builder: (context) => const RateDialog());
   }
 
-   // ====================== Rating Dialog ======================
+  // ====================== Rating Dialog ======================
   static void showNoteDialog(BuildContext context) {
     showDialog(context: context, builder: (context) => const NoteDialog());
   }

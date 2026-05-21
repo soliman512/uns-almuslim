@@ -324,7 +324,7 @@ class _SettingsState extends State<Settings> {
                       trailing: FilledButton(
                         onPressed: () {
                           AppActionsService.showNoteDialog(context);
-                      },
+                        },
                         style: FilledButton.styleFrom(
                           backgroundColor: ConstColors.mainColor,
                           foregroundColor: Colors.white,
@@ -372,31 +372,33 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     //version
-                    _buildSettingTile(
-                      isDark: isDark,
-                      title: "الإصدار: 1.0",
-                      trailing: FilledButton(
-                        onPressed: () {},
-                        style: FilledButton.styleFrom(
-                          backgroundColor: ConstColors.mainColor,
-                          foregroundColor: Colors.white,
+                    // _buildSettingTile(
+                    //   isDark: isDark,
+                    //   title: "الإصدار: 1.0",
+                    //   trailing: FilledButton(
+                    //     onPressed: () async {
+                    //       await AppActionsService.checkAppUpdate(context);
+                    //     },
+                    //     style: FilledButton.styleFrom(
+                    //       backgroundColor: ConstColors.mainColor,
+                    //       foregroundColor: Colors.white,
 
-                          padding: EdgeInsets.symmetric(
-                            vertical: 6,
-                            horizontal: 18,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          "تحديث الإصدار",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ),
-                    //share
+                    //       padding: EdgeInsets.symmetric(
+                    //         vertical: 6,
+                    //         horizontal: 18,
+                    //       ),
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //     ),
+                    //     child: Text(
+                    //       "تحديث الإصدار",
+                    //       textAlign: TextAlign.center,
+                    //       style: TextStyle(fontSize: 12),
+                    //     ),
+                    //   ),
+                    // ),
+                    // //share
                     _buildSettingTile(
                       onTap: AppActionsService.shareApp,
                       isDark: isDark,
@@ -413,10 +415,10 @@ class _SettingsState extends State<Settings> {
 
                           children: [
                             TextSpan(
-                              text: "تواجهكم مشكلة؟ ",
+                              text: "هناك مشكلة؟ ",
                               style: TextStyle(color: Colors.redAccent),
                             ),
-                            TextSpan(text: "يسعدنا تواصلكم معنا عبر"),
+                            TextSpan(text: "يسعدنا تواصلكم معنا عبر\n"),
                             TextSpan(
                               text: "\"إرسال ملاحظة\"",
                               style: TextStyle(color: ConstColors.mainColor),
