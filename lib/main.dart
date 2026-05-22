@@ -9,9 +9,11 @@ import 'package:zad_almuslim/features/splash/view/splash_screen.dart';
 import 'package:zad_almuslim/features/home/view/home.dart';
 import 'package:zad_almuslim/features/settings/view/settings.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final prefs = await SharedPreferences.getInstance();
   final String savedFontSize = prefs.getString('font_size') ?? "متوسط";
   final String savedThemeMode = prefs.getString('theme_mode') ?? "light";
@@ -57,19 +59,26 @@ class _MyAppState extends State<MyApp> {
     await prefs.setString("font_size", _currentFontSize);
   }
 
-  void changeTheme(ThemeMode themeMode) async{
+  void changeTheme(ThemeMode themeMode) async {
     setState(() {
       _currentThemeMode = themeMode;
     });
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("theme_mode", _currentThemeMode == ThemeMode.dark ? 'dark' : 'light');
+    await prefs.setString(
+      "theme_mode",
+      _currentThemeMode == ThemeMode.dark ? 'dark' : 'light',
+    );
   }
-@override
+
+  @override
   void initState() {
     super.initState();
-    _currentThemeMode = widget.initThemeMode == 'dark' ? ThemeMode.dark : ThemeMode.light;
+    _currentThemeMode = widget.initThemeMode == 'dark'
+        ? ThemeMode.dark
+        : ThemeMode.light;
     _currentFontSize = widget.initFontSize;
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
