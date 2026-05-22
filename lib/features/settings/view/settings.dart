@@ -210,7 +210,9 @@ class _SettingsState extends State<Settings> {
 
                     // share
                     _buildSettingTile(
-                      onTap: AppActionsService.shareApp,
+                      onTap: () {
+                        AppActionsService.shareApp(context);
+                      },
                       isDark: isDark,
                       title: "مشاركة التطبيق",
                       iconPath: ConstIcons.share,

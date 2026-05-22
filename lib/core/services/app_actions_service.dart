@@ -14,6 +14,7 @@ class AppActionsService {
   // static List<String> fontSizes = ["صغير", "متوسط", "كبير"];
   // static String selectedSize = "متوسط";
   static String? globalCurrentVersoin;
+  static String? globalAppSharingLink;
   static bool? globalCheckCurrentVersion;
   static Future<void> checkAppUpdate(BuildContext context) async {
     final url = Uri.parse(
@@ -30,6 +31,7 @@ class AppActionsService {
             (data['assets'] != null && data['assets'].isNotEmpty)
             ? data['assets'][0]['browser_download_url']
             : data['html_url'];
+        globalAppSharingLink = downloadUrl;
         latestVersion = latestVersion.replaceAll('v', '').trim();
 
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -227,12 +229,15 @@ class AppActionsService {
 
   // ====================== share app ======================
 
-  static void shareApp() async {
+  static void shareApp(BuildContext context) async {
+    await checkAppUpdate(context);
     String message =
-        "تطبيق ${ConstTexts.appName} | صدقة جارية، أذكار، وأدعية وميزات بدون إعلانات.\n"
-        "حمل التطبيق الآن وساهم في نشره:\n"
-        "https://play.google.com/store/apps/details?id=com.yourcompany.zad_almuslim";
-
+        "【 ${ConstTexts.appName} 】\n\n"
+        "تطبيق إسلامي — صدقة جارية، أذكار، وأدعية شاملة، بمميزات وبدون أي إعلانات لتوفير تجربة هادئة ومريحة.\n\n"
+        "ساهم في نشر الخير فالدّال على الخير كفاعله، يمكنك تحميل التطبيق مباشرة عبر الرابط التالي:\n"
+        "$globalAppSharingLink\n\n"
+        "ــــــــــــــــــــــــــــــــــــــــ\n"
+        "تطبيق ${ConstTexts.appName} | زادك المسلم اليومي";
     await SharePlus.instance.share(ShareParams(text: message));
   }
 }

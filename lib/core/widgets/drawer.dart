@@ -97,7 +97,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: ConstIcons.sendNotes, 
+                      icon: ConstIcons.sendNotes,
                       title: "أرسل مقترحاً",
                       onTap: () {
                         AppActionsService.showNoteDialog(context);
@@ -108,7 +108,7 @@ class AppDrawer extends StatelessWidget {
                       icon: ConstIcons.share,
                       title: "مشاركة التطبيق",
                       onTap: () {
-                        AppActionsService.shareApp();
+                        AppActionsService.shareApp(context);
                       },
                     ),
                   ],
@@ -137,7 +137,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      "الإصدار 1.0.0",
+                      "الإصدار\t${AppActionsService.globalCurrentVersoin}",
                       style: TextStyle(
                         color: Colors.white38,
                         fontSize: 12,
