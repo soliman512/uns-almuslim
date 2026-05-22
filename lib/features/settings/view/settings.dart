@@ -55,35 +55,6 @@ class _SettingsState extends State<Settings> {
         height: double.infinity,
         child: Stack(
           children: [
-            // لا تنسونا من صالح دعائكم box
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  gradient: ConstColors.mainGradientColor,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, -4),
-                      blurRadius: 12,
-                    ),
-                  ],
-                ),
-                child: const Text(
-                  "لا تنسونا من صالح دعائكم",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-
             //bottom shape
             // Align(
             //   alignment: Alignment.bottomCenter,
@@ -94,6 +65,7 @@ class _SettingsState extends State<Settings> {
             // ),
             SpecialBody(
               body: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -249,7 +221,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                     ),
-
+                    SizedBox(height: 20),
                     // Opacity(
                     //   opacity: 0.6,
                     //   child: RichText(
@@ -285,6 +257,34 @@ class _SettingsState extends State<Settings> {
                     //     ),
                     //   ),
                   ],
+                ),
+              ),
+            ),
+            // لا تنسونا من صالح دعائكم box
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.sizeOf(context).width,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: ConstColors.mainGradientColor,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, -4),
+                      blurRadius: 12,
+                    ),
+                  ],
+                ),
+                child: const Text(
+                  "لا تنسونا من صالح دعائكم",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

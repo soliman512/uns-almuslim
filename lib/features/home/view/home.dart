@@ -115,6 +115,8 @@ class _HomeState extends State<Home> {
                   duration: Duration(milliseconds: 2000),
                   curve: Curves.easeOut,
                   bottom: _isVisible ? -40 : -300,
+                  left: 0,
+                  right: 0,
                   child: Opacity(
                     opacity: 0.4,
                     child: Align(

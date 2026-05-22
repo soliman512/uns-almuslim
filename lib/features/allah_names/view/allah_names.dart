@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
 import 'package:zad_almuslim/core/constants/textes.dart';
+import 'package:zad_almuslim/core/services/app_actions_service.dart';
 import 'package:zad_almuslim/core/widgets/appbar.dart';
 import 'package:zad_almuslim/core/widgets/drawer.dart';
 import 'package:zad_almuslim/core/widgets/header.dart';
@@ -27,12 +28,18 @@ class _AllahNamesState extends State<AllahNames> {
   final AllahNamesLogic _logic = AllahNamesLogic();
 
   Future<void> openUrl() async {
-    await launchUrl(websiteUrl, mode: LaunchMode.externalApplication);
+    if (!await launchUrl(websiteUrl, mode: LaunchMode.externalApplication)) {
+      AppActionsService.showErrorSnackBar(
+        context,
+        "حدثت مشكلة غير متوقعة ، حاول لاحقا",
+      );
+    }
   }
 
   void _initData() async {
     try {
       await _logic.fetchData();
+      setState(() {});
     } catch (e) {
       throw Exception("Error while initializing data: $e");
     }
@@ -50,7 +57,7 @@ class _AllahNamesState extends State<AllahNames> {
       key: scaffoldState,
       extendBodyBehindAppBar: true,
       appBar: MyAppbar(
-        pageName:ConstTexts.allahNames,
+        pageName: ConstTexts.allahNames,
         onPressDrawer: () => scaffoldState.currentState!.openDrawer(),
       ),
       drawer: AppDrawer(),
@@ -128,7 +135,7 @@ class _AllahNamesState extends State<AllahNames> {
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
                       child: Text(
-                        "جاري جلب الأسماء من الإنترنت...\nتأكد من اتصالك بالشبكة إذا طال الانتظار.",
+                        "جاري جلب الأسماء من الإنترنت...\nتأكد من اتصالك بالشبكة إذا طال الانتظار.\nهذا فقط في اول مرة",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16),
                       ),

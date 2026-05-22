@@ -90,13 +90,13 @@ class _MerajState extends State<Meraj> {
                                     : Color(0xffECECEC),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                spacing: 40,
-                                children: [
-                                  // data
-                                  SingleChildScrollView(
-                                    child: Column(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  spacing: 40,
+                                  children: [
+                                    // data
+                                    Column(
                                       mainAxisSize: MainAxisSize.max,
                                       spacing: 20,
                                       children: [
@@ -128,84 +128,85 @@ class _MerajState extends State<Meraj> {
                                         ],
                                       ],
                                     ),
-                                  ),
 
-                                  // start button
-                                  Row(
-                                    spacing: 4,
-                                    children: [
-                                      Expanded(
-                                        flex: 4,
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            Navigator.pop(context);
+                                    // start button
+                                    Row(
+                                      spacing: 4,
+                                      children: [
+                                        Expanded(
+                                          flex: 4,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              Navigator.pop(context);
 
-                                            await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MerajZikrCounter(
-                                                      id: id,
-                                                      zikr: zikr,
-                                                      repeat: repeat,
-                                                      title: title,
-                                                      fontSizeFactor:
-                                                          widget.fontSizeFactor,
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MerajZikrCounter(
+                                                        id: id,
+                                                        zikr: zikr,
+                                                        repeat: repeat,
+                                                        title: title,
+                                                        fontSizeFactor: widget
+                                                            .fontSizeFactor,
+                                                      ),
+                                                ),
+                                              );
+
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 12,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                gradient: ConstColors
+                                                    .mainGradientColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "قول الذكر",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                      color: Colors.white,
                                                     ),
                                               ),
-                                            );
-
-                                            setState(() {});
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 12,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              gradient:
-                                                  ConstColors.mainGradientColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "قول الذكر",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                  ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: FilledButton.icon(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          style: FilledButton.styleFrom(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 14,
+                                        Expanded(
+                                          flex: 1,
+                                          child: FilledButton.icon(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            style: FilledButton.styleFrom(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 14,
+                                              ),
+                                              backgroundColor:
+                                                  ConstColors.input,
+                                              side: BorderSide.none,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
                                             ),
-                                            backgroundColor: ConstColors.input,
-                                            side: BorderSide.none,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                            label: Icon(
+                                              Icons.close,
+                                              color: ConstColors.mainColor,
                                             ),
-                                          ),
-                                          label: Icon(
-                                            Icons.close,
-                                            color: ConstColors.mainColor,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
