@@ -13,12 +13,11 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 class AppActionsService {
   // static List<String> fontSizes = ["صغير", "متوسط", "كبير"];
   // static String selectedSize = "متوسط";
-  static const String githubUsername = "soliman512";
-  static const String repoName = "uns-almuslim";
-
+  static String? globalCurrentVersoin;
+  static bool? globalCheckCurrentVersion;
   static Future<void> checkAppUpdate(BuildContext context) async {
     final url = Uri.parse(
-      "https://api.github.com/repos/$githubUsername/$repoName/releases/latest",
+      "https://api.github.com/repos/${ConstTexts.githubUsername}/${ConstTexts.repoName}/releases/latest",
     );
 
     try {
@@ -27,22 +26,83 @@ class AppActionsService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         String latestVersion = data['tag_name'];
-        String downloadUrl = data['html_url'];
-
+        String downloadUrl =
+            (data['assets'] != null && data['assets'].isNotEmpty)
+            ? data['assets'][0]['browser_download_url']
+            : data['html_url'];
         latestVersion = latestVersion.replaceAll('v', '').trim();
 
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         String currentVersion = packageInfo.version;
-        print(currentVersion);
-        if (latestVersion != currentVersion) {
-          final Uri uri = Uri.parse(downloadUrl);
-          if (await canLaunchUrl(uri)) {
-            await launchUrl(uri, mode: LaunchMode.externalApplication);
-          }
-        } else {
-          if (context.mounted) {
-            showSuccessSnackBar(context, "تطبيقك محدث بالفعل إلى آخر إصدار!");
-          }
+        globalCurrentVersoin = currentVersion;
+        globalCheckCurrentVersion = currentVersion == latestVersion;
+        if (currentVersion != latestVersion) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              elevation: 30,
+              title: Text(
+                "تحديث جديد متاح",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ConstColors.mainColor,
+                ),
+              ),
+              content: const Text(
+                "يتوفر إصدار جديد من التطبيق \nيرجى التحديث الآن للحصول على آخر الميزات والتحسينات واستقرار الاتصال.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15, height: 1.5),
+              ),
+              actionsAlignment: MainAxisAlignment.center,
+              actionsPadding: const EdgeInsets.only(
+                bottom: 16,
+                left: 16,
+                right: 16,
+              ),
+              actions: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ConstColors.mainColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    final Uri uri = Uri.parse(downloadUrl);
+                    if (!await launchUrl(uri)) {
+                      showErrorSnackBar(context, "هناك مشكلة ، حاول لاحقا");
+                    }
+                  },
+                  child: const Text(
+                    "تحديث الآن",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ),
+
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.grey,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("لاحقاً", style: TextStyle(fontSize: 14)),
+                ),
+              ],
+            ),
+          );
         }
       } else {
         throw Exception("Failed to load release info");
@@ -52,6 +112,13 @@ class AppActionsService {
       if (context.mounted) {
         showErrorSnackBar(context, "تعذر التحقق من وجود تحديثات حالياً");
       }
+    }
+  }
+
+  static void openBasaerOnTiktok(BuildContext context) async {
+    final url = Uri.parse(ConstTexts.basaerChannelUrl);
+    if (!await launchUrl(url)) {
+      showErrorSnackBar(context, "يبدو ان هنالك مشكلة ، حاول لاحقا");
     }
   }
 
@@ -260,7 +327,9 @@ class _NoteDialogState extends State<NoteDialog> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.grey[900],
 
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -276,11 +345,14 @@ class _NoteDialogState extends State<NoteDialog> {
               autofocus: true,
               cursorColor: ConstColors.mainColor,
 
+              style: Theme.of(context).textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: "ما الملاحظة ؟ ...",
                 hintStyle: TextStyle(color: Colors.black26),
                 filled: true,
-                fillColor: ConstColors.input,
+                fillColor: Theme.of(context).brightness == Brightness.light
+                    ? ConstColors.input
+                    : Colors.grey[800],
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 8,
                   vertical: 16,
@@ -329,7 +401,6 @@ class _NoteDialogState extends State<NoteDialog> {
               child: Container(
                 padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 4),
                   shape: BoxShape.circle,
                   gradient: ConstColors.mainGradientColor,
                 ),

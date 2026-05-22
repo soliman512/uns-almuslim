@@ -117,7 +117,10 @@ class _HomeState extends State<Home> {
                   bottom: _isVisible ? -40 : -300,
                   child: Opacity(
                     opacity: 0.4,
-                    child: Image.asset(ConstIcons.backgroundShape),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(ConstIcons.backgroundShape),
+                    ),
                   ),
                 ),
                 Center(

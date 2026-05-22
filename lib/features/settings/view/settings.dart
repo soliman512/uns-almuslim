@@ -1,11 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
-import 'package:share_plus/share_plus.dart';
 import 'package:zad_almuslim/core/constants/colors.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
-import 'package:zad_almuslim/core/constants/textes.dart';
 import 'package:zad_almuslim/core/services/app_actions_service.dart';
 import 'package:zad_almuslim/core/widgets/appbar.dart';
 import 'package:zad_almuslim/core/widgets/special_body.dart';
@@ -32,188 +27,16 @@ class _SettingsState extends State<Settings> {
   String selectedSize = "متوسط";
   final TextEditingController noteController = TextEditingController();
 
-  // //send email function:
-  // Future<void> sendEmail() async {
-  //   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-  //   try {
-  //     final response = await http.post(
-  //       url,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Origin': 'http://localhost',
-  //       },
-  //       body: jsonEncode({
-  //         'service_id': 'service_p6uvup9',
-  //         'template_id': 'template_qtfr8c4',
-  //         'user_id': 'W0ctHE3uYiqHe98Rl',
-  //         'accessToken': 'fX2do_IcXEuk9kIMc512o',
-  //         'template_params': {'message': noteController.text.trim()},
-  //       }),
-  //     );
+  void isThereUpdate() async {
+    await AppActionsService.checkAppUpdate(context);
+    setState(() {});
+  }
 
-  //     if (response.statusCode == 200) {
-  //       if (!mounted) return;
-
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text(
-  //             "تم إرسال الملاحظة بنجاح",
-  //             style: TextStyle(color: Colors.black),
-  //           ),
-  //           backgroundColor: Color.fromARGB(255, 7, 240, 151),
-  //           behavior: SnackBarBehavior.floating,
-  //           margin: EdgeInsets.all(4),
-  //         ),
-  //       );
-  //       noteController.clear();
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text("هناك مشكلة في الاتصال"),
-  //           backgroundColor: Colors.redAccent,
-  //         ),
-  //       );
-  //       print("EmailJS Server Error: ${response.body}");
-  //       throw Exception('فشل السيرفر في المعالجة');
-  //     }
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         backgroundColor: Colors.redAccent,
-  //         content: Text("there is problem : $e"),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // //send rate function:
-  // Future<void> sendRating(int rate) async {
-  //   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-  //   try {
-  //     final response = await http.post(
-  //       url,
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonEncode({
-  //         'service_id': 'service_p6uvup9',
-  //         'template_id': 'template_z1b9iw6',
-  //         'user_id': 'W0ctHE3uYiqHe98Rl',
-  //         'accessToken': 'fX2do_IcXEuk9kIMc512o',
-  //         'template_params': {'stars': rate},
-  //       }),
-  //     );
-  //     if (response.statusCode == 200) {
-  //       if (!mounted) return;
-
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text(
-  //             "شكرا لتقييمك لنا",
-  //             style: TextStyle(color: Colors.black),
-  //           ),
-  //           backgroundColor: Color.fromARGB(255, 240, 139, 7),
-  //           behavior: SnackBarBehavior.floating,
-  //           margin: EdgeInsets.all(4),
-  //         ),
-  //       );
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text("هناك مشكلة في الاتصال"),
-  //           backgroundColor: Colors.redAccent,
-  //         ),
-  //       );
-  //       print("EmailJS Server Error: ${response.body}");
-  //       throw Exception('فشل السيرفر في المعالجة');
-  //     }
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         backgroundColor: Colors.redAccent,
-  //         content: Text("there is problem : $e"),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // // rateUs function:
-  // void showRatingDialog(BuildContext context) {
-  //   double selectedRating = 3.0;
-
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(24),
-  //         ),
-
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             Text(
-  //               "قم بتقييمنا لمساعدتنا في تطوير ${ConstTexts.appName}",
-  //               textAlign: TextAlign.center,
-  //               style: TextStyle(color: Colors.grey, fontSize: 14),
-  //             ),
-  //             const SizedBox(height: 20),
-
-  //             RatingBar.builder(
-  //               initialRating: selectedRating,
-  //               minRating: 1,
-  //               direction: Axis.horizontal,
-  //               allowHalfRating: false,
-  //               itemCount: 5,
-  //               itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-  //               itemBuilder: (context, _) => const Icon(
-  //                 Icons.star_rounded,
-  //                 color: Color.fromARGB(255, 240, 139, 7),
-  //               ),
-  //               onRatingUpdate: (rating) {
-  //                 selectedRating = rating;
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //         actionsAlignment: MainAxisAlignment.spaceEvenly,
-  //         actions: [
-  //           ElevatedButton(
-  //             style: ElevatedButton.styleFrom(
-  //               backgroundColor: ConstColors.mainColor,
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(12),
-  //               ),
-  //             ),
-  //             onPressed: () {
-  //               int finalStarsCount = selectedRating.toInt();
-  //               Navigator.pop(context);
-  //               sendRating(finalStarsCount);
-  //             },
-  //             child: const Text(
-  //               "إرسال التقييم",
-  //               style: TextStyle(color: Colors.white),
-  //             ),
-  //           ),
-  //           TextButton(
-  //             onPressed: () => Navigator.pop(context),
-  //             child: const Text("إلغاء", style: TextStyle(color: Colors.grey)),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // //share app function:
-  // void shareApp() async {
-  //   // نص الرسالة اللي هيتبعت للمستخدمين على الواتساب أو غيره
-  //   String message =
-  //       "تطبيق ${ConstTexts.appName}  | صدقة جارية، أذكار، وأدعية وميزات بدون إعلانات.\n"
-  //       "حمل التطبيق الآن وساهم في نشره:\n"
-  //       "https://play.google.com/store/apps/details?id=com.yourcompany.zad_almuslim"; // استبدل ده بلينك تطبيقك الحقيقي
-
-  //   // سطر واحد سحري بيفتح قائمة المشاركة بتاعة الموبايل
-  //   await SharePlus.instance.share(ShareParams(text: message));
-  // }
+  @override
+  void initState() {
+    isThereUpdate();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -260,20 +83,21 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             ),
+
             //bottom shape
-            Positioned(
-              bottom: 0,
-              child: Opacity(
-                opacity: 0.2,
-                child: Image.asset(ConstIcons.backgroundShape),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Opacity(
+            //     opacity: 0.2,
+            //     child: Image.asset(ConstIcons.backgroundShape),
+            //   ),
+            // ),
             SpecialBody(
               body: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    const SizedBox(height: 72),
+                    const SizedBox(height: 80),
                     //dark mode
                     _buildSettingTile(
                       isDark: isDark,
@@ -319,33 +143,6 @@ class _SettingsState extends State<Settings> {
                     //notes
                     _buildSettingTile(
                       isDark: isDark,
-                      iconPath: ConstIcons.sendNotes,
-                      title: "إرسال ملاحظة",
-                      trailing: FilledButton(
-                        onPressed: () {
-                          AppActionsService.showNoteDialog(context);
-                        },
-                        style: FilledButton.styleFrom(
-                          backgroundColor: ConstColors.mainColor,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 6,
-                            horizontal: 18,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          "كتابة ملاحظة",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ),
-                    //rate us
-                    _buildSettingTile(
-                      isDark: isDark,
                       iconPath: ConstIcons.rateUs,
                       title: "قم بتقييمنا",
                       trailing: FilledButton(
@@ -371,76 +168,120 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-                    //version
-                    // _buildSettingTile(
-                    //   isDark: isDark,
-                    //   title: "الإصدار: 1.0",
-                    //   trailing: FilledButton(
-                    //     onPressed: () async {
-                    //       await AppActionsService.checkAppUpdate(context);
-                    //     },
-                    //     style: FilledButton.styleFrom(
-                    //       backgroundColor: ConstColors.mainColor,
-                    //       foregroundColor: Colors.white,
+                    //rate us
+                    _buildSettingTile(
+                      isDark: isDark,
+                      iconPath: ConstIcons.sendNotes,
+                      title: "إرسال ملاحظة",
+                      subtitle: "هل هناك مشكلة؟\n أو معلومة خاطئة؟",
+                      trailing: FilledButton(
+                        onPressed: () {
+                          AppActionsService.showNoteDialog(context);
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: ConstColors.mainColor,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 6,
+                            horizontal: 18,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          "كتابة ملاحظة",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
 
-                    //       padding: EdgeInsets.symmetric(
-                    //         vertical: 6,
-                    //         horizontal: 18,
-                    //       ),
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //       ),
-                    //     ),
-                    //     child: Text(
-                    //       "تحديث الإصدار",
-                    //       textAlign: TextAlign.center,
-                    //       style: TextStyle(fontSize: 12),
-                    //     ),
-                    //   ),
-                    // ),
-                    // //share
+                    // open basaer page on tiktok
+                    _buildSettingTile(
+                      onTap: () {
+                        AppActionsService.openBasaerOnTiktok(context);
+                      },
+                      isDark: isDark,
+                      title: " قناة بصائر على الـ TIKTOK ",
+                      iconPath: ConstIcons.tiktok,
+                      subtitle: "قناة ناشئة متخصصة في المحتوى الإسلامي",
+                    ),
+
+                    // share
                     _buildSettingTile(
                       onTap: AppActionsService.shareApp,
                       isDark: isDark,
                       title: "مشاركة التطبيق",
                       iconPath: ConstIcons.share,
+                      subtitle: "شاركني الاجر فالدّال على الخير كفاعله",
                     ),
-                    SizedBox(height: 20),
-                    Opacity(
-                      opacity: 0.6,
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyMedium,
+                    //version
+                    _buildSettingTile(
+                      isDark: isDark,
+                      title:
+                          "الإصدار: ${AppActionsService.globalCurrentVersoin}",
+                      trailing:
+                          AppActionsService.globalCheckCurrentVersion ?? true
+                          ? Text("أنت على احدث إصدار")
+                          : FilledButton(
+                              onPressed: () async {
+                                await AppActionsService.checkAppUpdate(context);
+                              },
+                              style: FilledButton.styleFrom(
+                                backgroundColor: ConstColors.mainColor,
+                                foregroundColor: Colors.white,
 
-                          children: [
-                            TextSpan(
-                              text: "هناك مشكلة؟ ",
-                              style: TextStyle(color: Colors.redAccent),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 6,
+                                  horizontal: 18,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                "تحديث الإصدار",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 12),
+                              ),
                             ),
-                            TextSpan(text: "يسعدنا تواصلكم معنا عبر\n"),
-                            TextSpan(
-                              text: "\"إرسال ملاحظة\"",
-                              style: TextStyle(color: ConstColors.mainColor),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                    Opacity(
-                      opacity: 0.6,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        child: Text(
-                          "تقبل الله هذا العمل صدقة جارية لي ولكل من ساهم في نشره",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                    ),
+
+                    // Opacity(
+                    //   opacity: 0.6,
+                    //   child: RichText(
+                    //     textAlign: TextAlign.center,
+                    //     text: TextSpan(
+                    //       style: Theme.of(context).textTheme.bodyMedium,
+                    //       children: [
+                    //         TextSpan(
+                    //           text: "هناك مشكلة؟ ",
+                    //           style: TextStyle(color: Colors.redAccent),
+                    //         ),
+                    //         TextSpan(text: "يسعدنا تواصلكم معنا عبر\n"),
+                    //         TextSpan(
+                    //           text: "\"إرسال ملاحظة\"",
+                    //           style: TextStyle(color: ConstColors.mainColor),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    //   Opacity(
+                    //     opacity: 0.6,
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.symmetric(
+                    //         horizontal: 16,
+                    //         vertical: 16,
+                    //       ),
+                    //       child: Text(
+                    //         "تقبل الله هذا العمل صدقة جارية لي ولكل من ساهم في نشره",
+                    //         textAlign: TextAlign.center,
+                    //         style: Theme.of(context).textTheme.bodyMedium,
+                    //       ),
+                    //     ),
+                    //   ),
                   ],
                 ),
               ),

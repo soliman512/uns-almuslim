@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:zad_almuslim/core/constants/icons.dart';
 
 // ignore: must_be_immutable

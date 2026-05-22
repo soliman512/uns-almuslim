@@ -9,12 +9,13 @@ class SpecialBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
+
       children: [
         Visibility(
           visible: showTopIcon ?? true,
-          child: Positioned(
-            top: 0,
-            right: -4,
+          child: Align(
+            alignment: Alignment.topCenter,
             child: RotatedBox(
               quarterTurns: 2,
               child: Opacity(

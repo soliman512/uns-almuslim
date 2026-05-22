@@ -50,12 +50,13 @@ class _MerajZikrCounterState extends State<MerajZikrCounter> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // zikr
-            SizedBox(
-              child: MediaQuery(
-                data: MediaQuery.of(context).copyWith(
+            Expanded(
+              child: SizedBox(
+              
+                child: MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
                   textScaler: TextScaler.linear(widget.fontSizeFactor),
                 ),
-                child: Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: MediaQuery.sizeOf(context).height * .15,

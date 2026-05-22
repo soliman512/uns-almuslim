@@ -6,6 +6,9 @@ class ConstTexts {
   static String allahNames = 'واحة الاسماء';
   static String meraj = 'معراج';
   static String settings = 'الإعدادات';
+  static String basaerChannelUrl = "https://vm.tiktok.com/ZS9YmuM5upNPY-1KWQT/";
+  static const String githubUsername = "soliman512";
+  static const String repoName = "uns-almuslim";
 
   static List<String> headerAyats = [
     // --- Original Ayat ---

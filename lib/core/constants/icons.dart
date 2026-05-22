@@ -41,6 +41,7 @@ class ConstIcons {
   static const String islamicMandala = 'assets/icons/ic_islamic_mandala.png';
   static const String darkMode = 'assets/icons/ic_dark.png';
   static const String share = 'assets/icons/ic_share.png';
+  static const String tiktok = 'assets/icons/ic_tiktok.png';
   //control
   static const String nextZikr = "$_path/ic_next_zikr.png";
   static const String pastZikr = "$_path/ic_past_zikr.png";
