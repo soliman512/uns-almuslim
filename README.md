@@ -1,4 +1,3 @@
-# Uns Al-Muslim (أُنْسُ المُسْلِم)
 
 <p align="center">
   <img src="https://i.ibb.co/MyBrbr4k/logo.png" alt="Uns Al-Muslim Title Logo" height="60"/>
