@@ -40,4 +40,4 @@ Follow these steps to set up and run the project locally on your machine for dev
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/soliman512/uns-almuslim.git](https://github.com/soliman512/uns-almuslim.git)
+   https://github.com/soliman512/uns-almuslim.git
