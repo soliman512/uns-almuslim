@@ -371,6 +371,7 @@ class _SebhaState extends State<Sebha> {
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
                                                   ),
                                                   validator: (value) {
                                                     if (value == null ||
@@ -433,7 +434,7 @@ class _SebhaState extends State<Sebha> {
                                                     fillColor:
                                                         ConstColors.input,
                                                     hintText:
-                                                        "اكتب الذكر هنا...", // لإرشاد المستخدم
+                                                        "اكتب الذكر هنا...",
                                                     hintStyle: TextStyle(
                                                       color:
                                                           Colors.grey.shade400,

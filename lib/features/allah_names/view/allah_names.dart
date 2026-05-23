@@ -39,7 +39,9 @@ class _AllahNamesState extends State<AllahNames> {
   void _initData() async {
     try {
       await _logic.fetchData();
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (e) {
       throw Exception("Error while initializing data: $e");
     }
@@ -47,7 +49,7 @@ class _AllahNamesState extends State<AllahNames> {
 
   @override
   void initState() {
-    _initData();
+    // _initData();
     super.initState();
   }
 
@@ -133,6 +135,7 @@ class _AllahNamesState extends State<AllahNames> {
                   }
                   //no data
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    _initData();
                     return const Center(
                       child: Text(
                         "جاري جلب الأسماء من الإنترنت...\nتأكد من اتصالك بالشبكة إذا طال الانتظار.\nهذا فقط في اول مرة",

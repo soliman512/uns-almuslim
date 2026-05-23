@@ -297,7 +297,8 @@ class _MerajState extends State<Meraj> {
                           child: Text(
                             "$repeat مرة",
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: Theme.of(context).textTheme.bodySmall!
+                                .copyWith(color: Colors.black),
                           ),
                         ),
                         //confirm zikr
